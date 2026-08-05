@@ -1,0 +1,307 @@
+/* ============================================================
+   SEWALI FESTIVAL — Assam Romance Music Festival
+   Tailwind v4 — globals.css (tokens + animations only)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=Great+Vibes&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — available as Tailwind utilities
+   e.g. text-gold, bg-purple-deep, shadow-gold
+   ============================================================ */
+@theme {
+  --color-red:           #c0392b;
+  --color-red-light:     #e74c3c;
+  --color-red-dark:      #922b21;
+  --color-orange:        #e67e22;
+  --color-orange-light:  #f39c12;
+  --color-gold:          #d4af37;
+  --color-gold-light:    #f1c40f;
+  --color-purple-deep:   #1a0533;
+  --color-purple-dark:   #2c0a52;
+  --color-purple-mid:    #6c3483;
+  --color-purple-light:  #9b59b6;
+  --color-cream:         #fdf6ec;
+  --color-offwhite:      #fafaf0;
+
+  --font-display:  'Playfair Display', Georgia, serif;
+  --font-script:   'Great Vibes', cursive;
+  --font-body:     'Inter', system-ui, sans-serif;
+
+  --shadow-gold:   0 0 30px rgba(212, 175, 55, 0.35);
+  --shadow-red:    0 0 30px rgba(192, 57, 43, 0.4);
+}
+
+/* ============================================================
+   BASE RESET
+   ============================================================ */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+  body {
+    font-family: var(--font-body);
+    background-color: #1a0533;
+    color: #fff;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+  a   { color: inherit; text-decoration: none; }
+  button { cursor: pointer; border: none; outline: none; font-family: var(--font-body); }
+
+  ::-webkit-scrollbar       { width: 6px; }
+  ::-webkit-scrollbar-track { background: #1a0533; }
+  ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 3px; }
+}
+
+/* ============================================================
+   SHARED UTILITY CLASSES  (kept in CSS — too complex for inline)
+   ============================================================ */
+@layer components {
+
+  /* ── Containers ── */
+  .container      { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .container--wide { max-width: 1440px; margin: 0 auto; padding: 0 32px; }
+
+  /* ── Glass ── */
+  .glass {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+  }
+
+  .glass-card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 20px;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    will-change: transform;
+  }
+  .glass-card:hover {
+    background: rgba(255,255,255,0.09);
+    border-color: rgba(212,175,55,0.5);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-gold);
+  }
+
+  /* ── Tag pill ── */
+  .tag {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #d4af37;
+  }
+
+  /* ── Dividers ── */
+  .divider-gold {
+    width: 80px; height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 20px auto;
+  }
+  .divider-gold--left { margin: 20px 0; }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #d4af37;
+    margin-bottom: 12px;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    border-radius: 60px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+  }
+  .btn:hover::before { transform: translateX(0); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #c0392b, #e67e22);
+    color: #fff;
+    box-shadow: 0 6px 30px rgba(192,57,43,0.45);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(192,57,43,0.6); }
+
+  .btn-outline {
+    background: rgba(0,0,0,0.35);
+    color: #d4af37;
+    border: 2px solid #d4af37;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+  .btn-outline:hover { background: rgba(212,175,55,0.18); transform: translateY(-3px); box-shadow: var(--shadow-gold); }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #d4af37, #f39c12);
+    color: #1a0533;
+    font-weight: 700;
+    box-shadow: var(--shadow-gold);
+  }
+  .btn-gold:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 50px rgba(212,175,55,0.6); }
+
+  /* ── Scroll-triggered fade-up animation ── */
+  .anim-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .anim-fade-up.visible { opacity: 1; transform: translateY(0); will-change: auto; }
+
+  /* ── Navbar scrolled state (JS toggles class) ── */
+  .navbar-scrolled {
+    background: rgba(26,5,51,0.97) !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 2px 30px rgba(0,0,0,0.5);
+  }
+
+  /* ── Artist card hover reveal desc ── */
+  .artist-card-desc {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .artist-card:hover .artist-card-desc { max-height: 80px; }
+
+  /* ── Timeline vertical line ── */
+  .timeline-line::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #d4af37, #c0392b, transparent);
+    transform: translateX(-50%);
+  }
+
+  /* ── Parallax banner fixed bg ── */
+  .parallax-bg {
+    position: absolute;
+    inset: -60px;
+    background-image: url('/concert_crowd.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: brightness(0.35);
+  }
+
+  /* ── Timeline dot hover ── */
+  .timeline-dot-inner {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #d4af37;
+    border: 3px solid #2c0a52;
+    box-shadow: 0 0 0 3px #d4af37, var(--shadow-gold);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+  .timeline-item:hover .timeline-dot-inner {
+    background: #c0392b;
+    box-shadow: 0 0 0 3px #c0392b, var(--shadow-red);
+    transform: scale(1.3);
+  }
+
+  /* ── Venue badge rotation animation ── */
+  .venue-badge-rotate    { animation: rotateSlow 12s linear infinite; will-change: transform; }
+  .venue-badge-rotate-in { animation: rotateSlow 12s linear infinite reverse; }
+
+  /* ── Scroll indicator bounce ── */
+  .scroll-indicator { animation: bounce 2s infinite; }
+
+  /* ── Ticket featured ribbon ── */
+  .ticket-ribbon::before {
+    content: 'Most Popular';
+    position: absolute;
+    top: 20px; right: -28px;
+    background: linear-gradient(90deg, #c0392b, #e67e22);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 6px 36px;
+    transform: rotate(45deg);
+  }
+
+  /* ── Gallery item hover overlay ── */
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,5,51,0.7) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  /* Mobile parallax and timeline fallbacks */
+  @media (max-width: 768px) {
+    .parallax-bg { background-attachment: scroll; }
+    .navbar-links-mobile { display: none; }
+    .timeline-line::before { left: 14px; transform: none; }
+  }
+}
+
+/* ============================================================
+   KEYFRAME ANIMATIONS (native CSS — complex, keep here)
+   ============================================================ */
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.05); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 40px rgba(212,175,55,0.4); }
+  50%       { text-shadow: 0 0 80px rgba(212,175,55,0.8), 0 0 120px rgba(230,126,34,0.3); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
