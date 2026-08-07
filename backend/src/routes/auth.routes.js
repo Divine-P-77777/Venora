@@ -4,9 +4,10 @@ const authController = require("../controllers/auth.controller")
 // const validationRules = require("../middlewares/validation.middleware")
 
 
-router.post("/register", authController.registerUser)
-router.post("/login", authController.loginUser)
-router.post("/logout", authController.logoutUser)
+router.post("/register", authController.profileRegister)
+router.post("/login", authController.profileLogin)
+router.post("/logout", authController.profileLogout)
+router.get("/profile", authController.getProfile)
 
 
 
