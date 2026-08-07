@@ -1,22 +1,5 @@
-const {clerkMiddleware} = require("@clerk/express")
+const { clerkClient, getAuth} = require("@clerk/express")
 
-
-import express from 'express'
-import { clerkMiddleware } from '@clerk/express'
-
-
-app.use(clerkMiddleware())
-
-
-
-
-import express from 'express'
-import { clerkMiddleware, clerkClient, getAuth } from '@clerk/express'
-
-const app = express()
-const PORT = 3000
-
-app.use(clerkMiddleware())
 
 app.get('/protected', async (req, res) => {
   // Use `getAuth()` to get the user's `userId`
