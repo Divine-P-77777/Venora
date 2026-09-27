@@ -1,7 +1,7 @@
 const { clerkMiddleware, clerkClient, getAuth } = require('@clerk/express')
 
-const AuthenticateUser =  async (req,res) =>{
-const { isAuthenticated, userId } = getAuth(req)
+const AuthenticateUser = async (req, res, next) => {
+  const { isAuthenticated, userId } = getAuth(req)
 
   // If user isn't authenticated, return a 401 error
   if (!isAuthenticated) {
@@ -12,5 +12,7 @@ const { isAuthenticated, userId } = getAuth(req)
   // Use Clerk's JavaScript Backend SDK to get the user's User object
   const user = await clerkClient.users.getUser(userId)
 
-  res.json({ user })
+  next()
 }
+
+module.exports = { AuthenticateUser }

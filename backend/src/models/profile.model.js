@@ -2,30 +2,31 @@ const mongoose = require("mongoose")
 
 const ProfileSchema = new mongoose.Schema({
 
-
-    username :{
+    clerkId: {
         type: String,
         required: true,
-        unique : true,
-
+        unique: true,
     },
-    role:{
-        type : String,
-        enums:["user","event-manager","admin","volunteer"],
-        default :"user"
-    },
-    email :{
+    username: {
         type: String,
         required: true,
-        unique : true,
+        unique: true,
 
     },
-    password :{
-        type: String
+    role: {
+        type: String,
+        ref: "roles",
+        default: "user"
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
 
-    }
+    },
+
 })
 
-const profileModel = mongoose.model("profile", ProfileSchema)
+const profileModel = mongoose.model("profiles", ProfileSchema)
 
 module.exports = profileModel;

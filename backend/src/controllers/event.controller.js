@@ -4,6 +4,7 @@ const eventModel = require("../models/event.model")
 async function registerEvent(req, res) {
     try {
         const {
+            user_id,
             eventName,
             catagory,
             organizer,
@@ -11,12 +12,10 @@ async function registerEvent(req, res) {
             phone,
             email,
             date,
-            isActive,
-
-
+            status,
         } = req.body;
 
-        if (!eventName || !catagory || !organizer || !time || !phone || !email || !date || !isActive) {
+        if (!user_id || !eventName || !catagory || !organizer || !time || !phone || !email || !date) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
@@ -29,6 +28,7 @@ async function registerEvent(req, res) {
             email,
             date,
             isActive,
+            createdBy: user_id
 
 
         });
@@ -37,6 +37,8 @@ async function registerEvent(req, res) {
         res.status(201).json(result);
 
     } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Event registration failed" });
 
     }
 

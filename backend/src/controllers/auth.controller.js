@@ -6,27 +6,34 @@ async function profileRegister(req, res) {
 
   const { username, email, password, role } = req.body;
 
-  if (!username || !email || !password || !role) {
+  if (!username || !email || !password) {
     return res.status(400).json({ error: "All fields are required" });
+  }
+  const isUser = await profileModel.findOne({ $or: [{ email }, { username }] })
+  if (isUser) {
+    return res.status(400).json({ error: "User already exists" });
   }
 
   try {
     const user = await clerkClient.users.createUser({
       emailAddress: [email],
-      password: [password],
+      password: password,
     })
 
     const userProfile = await profileModel.create({
-      name,
+      clerkId: user.id,
+      username,
       email,
-      password,
       role
     })
 
 
     res.json({ message: 'User created successfully', user })
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({
+      error: error.message,
+      details: error.errors
+    })
   }
 
 }

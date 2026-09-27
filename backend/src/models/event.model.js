@@ -1,50 +1,53 @@
 const mongoose = require("mongoose");
-const { eventNames } = require("../app");
 
-const EventSchema = new mongoose.Schema({
-
-
+const eventSchema = new mongoose.Schema({
     eventName: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
+    },
+    purpose: {
+        type: String,
+        required: true
     },
     catagory: {
         type: String,
-        enum: ["Music", "Sport", "Food", "Tech", "Other"],
         required: true
     },
     organizer: {
-        type: String,
-        required: true
-    },
-    time: {
-        type: String,
-        required: true
-    },
-    phone: {
-        type: Number,
-        required: true
-    },
-    email: {
-        type: String,
+        ref: "organizers",
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     date: {
         type: Date,
         required: true
     },
-    isActive: {
+    time: {
         type: String,
-        default: false
-
-
-
-
+        required: true
     },
+    location: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ["Active", "Draft", "inActive"],
+        default: "Draft"
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "profiles",
+        required: true
+    }
+}, { timestamps: true })
 
-})
-
-const eventModel = mongoose.model("events", EventSchema)
-
-module.exports = eventModel;
+module.exports = mongoose.model("events", eventSchema);
