@@ -3,12 +3,11 @@ const bcrypt = require('bcryptjs');
 
 const roleModel = require('../models/role.model');
 const profileModel = require('../models/profile.model');
-const { cclerkClient } = require('@clerk/express')
-
+const { clerkClient } = require('@clerk/backend');
 
 require('dotenv').config();
 
-seedRootAdmin = async () => {
+const seedRootAdmin = async () => {
     try {
 
         let superAdminRole = await roleModel.findOne({ name: 'super-admin' });

@@ -1,40 +1,79 @@
 const mongoose = require("mongoose");
 
 
-const EventSchema = new mongoose.Schema({
-
-    ticketId: {
+const TicketSchema = new mongoose.Schema({
+    ticketType: {
         type: String,
+        required: true
+    },
+    ticketPrice: {
+        type: Number,
+        required: true
+    },
+    ticketQuantity: {
+        type: Number,
         required: true,
+        default: 1
     }
-    ,
+}, { _id: true })
 
-    myself: {
-        type: Boolean,
-        required: true,
-
+const BookTicketSchema = new mongoose.Schema({
+    event_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "events",
+        required: true
     },
-    memberName: {
+    bookedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "profiles",
+        required: true
+    },
+    org_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "organizers",
+        required: true
+    },
+    tickets: [TicketSchema],
+    totalAmount: {
+        type: Number,
+        required: true
+    },
+    paymentStatus: {
         type: String,
-        required: true
+        enum: ["pending", "successful", "failed", "refunded"],
+        default: "pending"
     },
-    memberAge: {
-        type: Number,
-        required: true
+    paymentId: {
+        type: String,
     },
-    totalMembers: {
-        type: Number,
-        required: true
+    orderId: {
+        type: String,
+        required: true,
+        unique: true
     },
-    memberInfo: {
-        type: Array,
-        required: true
+    qrCodeToken: {
+        type: String,
+        unique: true,
+        sparse: true
     },
-
-
-
+    checkInStatus: {
+        type: Boolean,
+        default: false
+    },
+    checkInTime: {
+        type: Date
+    },
+    checkedInBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "volunteer"
+    }
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 })
 
-const eventModel = mongoose.model("events", EventSchema)
+const bookTicketModel = mongoose.model("bookedticket", BookTicketSchema)
 
-module.exports = eventModel;
+module.exports = bookTicketModel;

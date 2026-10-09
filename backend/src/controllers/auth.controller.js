@@ -1,65 +1,62 @@
-const { clerkClient, getAuth } = require("@clerk/express")
-const app = require("../app")
-const profileModel = require("../models/profile.model")
+const authService = require("../services/auth.service");
 
 async function profileRegister(req, res) {
+    try {
+        const { username, email, password, role } = req.body;
 
-  const { username, email, password, role } = req.body;
+        if (!username || !email || !password || !role) {
+            return res.status(400).json({ error: "Username, email, password, and role are all required" });
+        }
 
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
-  const isUser = await profileModel.findOne({ $or: [{ email }, { username }] })
-  if (isUser) {
-    return res.status(400).json({ error: "User already exists" });
-  }
+        const result = await authService.profileRegisterService({ username, email, password, role });
+        
+        return res.status(201).json({ 
+            message: 'User registered successfully', 
+            user: result.userProfile 
+        });
 
-  try {
-    const user = await clerkClient.users.createUser({
-      emailAddress: [email],
-      password: password,
-    })
+    } catch (error) {
+        console.error("Profile registration error:", error);
+        
+        if (error.status) {
+            return res.status(error.status).json({ error: error.message });
+        }
+        
+        // Handle Clerk API specific errors
+        if (error.errors && error.errors.length > 0) {
+            return res.status(400).json({ error: error.errors[0].longMessage || error.errors[0].message });
+        }
 
-    const userProfile = await profileModel.create({
-      clerkId: user.id,
-      username,
-      email,
-      role
-    })
-
-
-    res.json({ message: 'User created successfully', user })
-  } catch (error) {
-    res.status(400).json({
-      error: error.message,
-      details: error.errors
-    })
-  }
-
+        return res.status(500).json({ error: "Internal server error during registration." });
+    }
 }
 
 async function profileLogin(req, res) {
-
+    return res.status(501).json({ message: "Login should be handled by Clerk Frontend SDK." });
 }
 
 async function profileLogout(req, res) {
-
+    return res.status(501).json({ message: "Logout should be handled by Clerk Frontend SDK." });
 }
 
 async function getProfile(req, res) {
+    try {
+        // Thanks to AuthenticateUser middleware, req.user is already securely 
+        // fetched from the local DB! No service call needed!
+        if (!req.user) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
 
-  const { isAuthenticated, userId } = getAuth(req)
-
-  if (!isAuthenticated) {
-    res.status(401).json({ error: 'Unauthorized' })
-    return
-  }
-
-  const user = await clerkClient.users.getUser(userId)
-
-  res.json({ user })
-
+        return res.status(200).json({ user: req.user });
+    } catch (error) {
+        console.error("Get profile error:", error);
+        return res.status(500).json({ error: "Failed to fetch profile." });
+    }
 }
 
-
-module.exports = { profileRegister, profileLogin, profileLogout, getProfile }
+module.exports = { 
+    profileRegister, 
+    profileLogin, 
+    profileLogout, 
+    getProfile 
+};

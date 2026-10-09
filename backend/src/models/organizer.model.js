@@ -1,34 +1,65 @@
 const mongoose = require("mongoose");
 
-const EventSchema = new mongoose.Schema({
-    organizerName: {
-        type: String,
-        required: true
-    },
-    phone: {
-        type: Number,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
-    gstPan: {
-        type: String,
-        required: true
-    },
-    isActive: {
-        type: String,
-        default: false
-    },
-    createdBy: {
+const OrganizerSchema = new mongoose.Schema({
+    org_id: {
         ref: "profiles",
         type: mongoose.Schema.Types.ObjectId,
         required: true
+    },
+    organizationName: {
+        type: String,
+        required: true
+    },
+    organizationType: {
+        type: String,
+        required: true
+    },
+    registeredAddress: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    state: {
+        type: String,
+        required: true
+
+    },
+    pincode: {
+        type: String,
+        required: true
+
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    website: {
+        type: String
+    },
+    verificationStatus: {
+        type: String,
+        enum: ["pending", "approved", "rejected"],
+        default: "pending"
+    },
+    verificationRemarks: {
+        type: String,
+
+    },
+    verifiedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "profiles"
+
     }
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
+})
 
-}, { timestamps: true })
+const organizerModel = mongoose.model("organizers", OrganizerSchema)
 
-const eventModel = mongoose.model("organizers", EventSchema)
-
-module.exports = eventModel;
+module.exports = organizerModel;

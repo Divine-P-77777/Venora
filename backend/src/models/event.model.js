@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 
 const eventSchema = new mongoose.Schema({
+    org_id: {
+        ref: "organizers",
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+
+    },
     eventName: {
         type: String,
         required: true
@@ -9,33 +15,55 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    catagory: {
+    category: {
         type: String,
         required: true
     },
-    organizer: {
-        ref: "organizers",
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    capacity: {
+        type: Number,
+        required: true,
+        min: 1
     },
-    date: {
+    startDate: {
         type: Date,
         required: true
     },
-    time: {
+    endDate: {
+        type: Date,
+
+    },
+    startTime: {
         type: String,
         required: true
     },
-    location: {
+    endTime: {
         type: String,
         required: true
+    },
+    isOnline: {
+        type: Boolean,
+        required: true
+    },
+    venue: {
+        type: String,
+        required: function () {
+            return this.isOnline === false;
+        }
     },
     description: {
         type: String,
         required: true
     },
+    bannerImage: {
+        type: String,
+
+    },
     price: {
         type: Number,
+        required: true
+    },
+    ticketType: {
+        type: [String],
         required: true
     },
     status: {
@@ -50,4 +78,7 @@ const eventSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model("events", eventSchema);
+
+const eventModel = mongoose.model("events", eventSchema)
+module.exports = eventModel;
+

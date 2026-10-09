@@ -14,16 +14,15 @@ const ProfileSchema = new mongoose.Schema({
 
     },
     role: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "roles",
-        default: "user"
+        required: true
     },
     email: {
         type: String,
         required: true,
         unique: true,
-
-    },
+    }
 
 })
 
