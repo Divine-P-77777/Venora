@@ -26,6 +26,10 @@ const registerVolunteerValidation = [
     body("dob")
         .isISO8601()
         .withMessage("Valid Date of Birth (ISO8601) is required"),
+    body("profile_image")
+        .optional({ checkFalsy: true })
+        .isURL()
+        .withMessage("profile_image must be a valid URL"),
     body("assigned_events")
         .optional()
         .isArray()

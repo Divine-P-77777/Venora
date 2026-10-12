@@ -16,6 +16,7 @@ const VolunteerSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   phone: { type: String, required: true },
   dob: { type: Date, required: true },
+  profile_image: { type: String, required: true },
 
   account_status: {
     type: String,

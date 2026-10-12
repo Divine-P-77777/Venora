@@ -52,6 +52,10 @@ const eventRegisterValidation = [
     body("ticketType")
         .isArray({ min: 1 })
         .withMessage("ticketType must be an array with at least one ticket type"),
+    body("bannerImage")
+        .optional({ checkFalsy: true })
+        .isURL()
+        .withMessage("bannerImage must be a valid URL"),
     body("status")
         .optional()
         .isIn(["Active", "Draft", "inActive"])
@@ -76,6 +80,10 @@ const eventUpdateValidation = [
         .optional()
         .isFloat({ min: 0 })
         .withMessage("Price must be a valid non-negative number"),
+    body("bannerImage")
+        .optional({ checkFalsy: true })
+        .isURL()
+        .withMessage("bannerImage must be a valid URL"),
     body("status")
         .optional()
         .isIn(["Active", "Draft", "inActive"])

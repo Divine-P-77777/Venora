@@ -115,4 +115,37 @@ async function deleteEvent(req, res) {
     }
 }
 
-module.exports = { registerEvent, updateEvent, deleteEvent };
+async function uploadMedia(req, res) {
+    try {
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ error: "No files uploaded" });
+        }
+
+        if (req.files.length === 1) {
+            return res.status(200).json({
+                message: "Banner image streamed to Cloudinary successfully",
+                url: req.file.secure_url,
+                public_id: req.file.public_id,
+                file: req.file,
+                fields: req.body
+            });
+        }
+
+        return res.status(200).json({
+            message: `${req.files.length} images streamed to Cloudinary successfully`,
+            files: req.files,
+            count: req.files.length,
+            fields: req.body
+        });
+    } catch (error) {
+        console.error("Error in uploadMedia controller:", error);
+        return res.status(500).json({ error: "Media upload failed." });
+    }
+}
+
+module.exports = {
+    registerEvent,
+    updateEvent,
+    deleteEvent,
+    uploadMedia
+};

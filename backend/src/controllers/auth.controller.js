@@ -9,20 +9,19 @@ async function profileRegister(req, res) {
         }
 
         const result = await authService.profileRegisterService({ username, email, password, role });
-        
-        return res.status(201).json({ 
-            message: 'User registered successfully', 
-            user: result.userProfile 
+
+        return res.status(201).json({
+            message: 'User registered successfully',
+            user: result.userProfile
         });
 
     } catch (error) {
         console.error("Profile registration error:", error);
-        
+
         if (error.status) {
             return res.status(error.status).json({ error: error.message });
         }
-        
-        // Handle Clerk API specific errors
+
         if (error.errors && error.errors.length > 0) {
             return res.status(400).json({ error: error.errors[0].longMessage || error.errors[0].message });
         }
@@ -41,8 +40,6 @@ async function profileLogout(req, res) {
 
 async function getProfile(req, res) {
     try {
-        // Thanks to AuthenticateUser middleware, req.user is already securely 
-        // fetched from the local DB! No service call needed!
         if (!req.user) {
             return res.status(401).json({ error: "Unauthorized" });
         }
@@ -54,9 +51,9 @@ async function getProfile(req, res) {
     }
 }
 
-module.exports = { 
-    profileRegister, 
-    profileLogin, 
-    profileLogout, 
-    getProfile 
+module.exports = {
+    profileRegister,
+    profileLogin,
+    profileLogout,
+    getProfile
 };

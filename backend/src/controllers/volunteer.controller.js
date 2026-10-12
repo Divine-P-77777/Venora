@@ -10,6 +10,7 @@ async function registerVolunteer(req, res) {
             email,
             phone,
             dob,
+            profile_image,
             assigned_events,
             assigned_gate
         } = req.body;
@@ -41,6 +42,7 @@ async function registerVolunteer(req, res) {
             email,
             phone,
             dob,
+            profile_image,
             assigned_events,
             assigned_gate,
             account_status,
