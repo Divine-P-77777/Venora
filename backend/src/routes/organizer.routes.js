@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { AuthenticateUser } = require("../middlewares/auth.middlewares");
+const { AuthenticateUser } = require("../middlewares/auth.middleware");
 const { AuthenticateApprovedOrg } = require("../middlewares/check-organizer.middleware");
 const organizerController = require("../controllers/organizer.controller");
 const {

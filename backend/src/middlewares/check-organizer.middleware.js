@@ -1,19 +1,12 @@
 const organizerModel = require("../models/organizer.model");
 const profileModel = require("../models/profile.model");
-const { getAuth } = require("@clerk/express");
 
 const AuthenticateApprovedOrg = async (req, res, next) => {
     try {
-        const { userId } = getAuth(req);
+        const user = req.user;
 
-        if (!userId) {
-            return res.status(401).json({ error: 'User not authenticated' });
-        }
-
-        // Query our local DB using the Clerk ID from the token
-        const user = await profileModel.findOne({ clerkId: userId });
         if (!user) {
-            return res.status(404).json({ error: 'User profile not found' });
+            return res.status(401).json({ error: 'User not authenticated' });
         }
 
         // Check if this user is a registered organizer

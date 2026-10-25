@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs');
 
 const roleModel = require('../models/role.model');
 const profileModel = require('../models/profile.model');
-const { clerkClient } = require('@clerk/backend');
-
 require('dotenv').config();
 
 const seedRootAdmin = async () => {
@@ -40,17 +38,12 @@ const seedRootAdmin = async () => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, salt);
 
-        const user = await clerkClient.users.createUser({
-            emailAddress: [adminEmail],
-            password: hashedPassword,
-        })
-
         const mainAdmin = await profileModel.create({
-            clerkId: user.id,
             username: "Super Admin",
             role: superAdminRole._id,
             email: adminEmail,
-        })
+            password: hashedPassword,
+        });
 
 
         await mainAdmin.save();

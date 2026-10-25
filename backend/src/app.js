@@ -4,7 +4,6 @@ const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 require('dotenv').config();
-const { clerkMiddleware } = require('@clerk/express');
 
 const authRoutes = require("./routes/auth.routes");
 const organizerRoutes = require("./routes/organizer.routes");
@@ -12,7 +11,7 @@ const eventRoutes = require("./routes/event.routes");
 const ticketRoutes = require("./routes/ticket.routes");
 const volunteerRoutes = require("./routes/volunteer.routes");
 const adminRoutes = require("./routes/admin.routes");
-const { seedRootAdmin } = require("../src/utils/seedAdmin");
+const { seedRootAdmin } = require("../src/utils/seedAdmin.util");
 
 const app = express();
 
@@ -35,10 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Authentication Middleware
-app.use(clerkMiddleware());
-
-// Seed Admin - Ensure this is handled correctly in prod (e.g., only run if DB is empty)
+// Seed Admin - Ensure this is handled correctly in prod
 // seedRootAdmin(); 
 
 // Routes

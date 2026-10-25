@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const volunteerController = require("../controllers/volunteer.controller");
-const { AuthenticateUser } = require("../middlewares/auth.middlewares");
+const { AuthenticateUser } = require("../middlewares/auth.middleware");
 const { AuthenticateApprovedOrg } = require("../middlewares/check-organizer.middleware");
 const {
     registerVolunteerValidation,

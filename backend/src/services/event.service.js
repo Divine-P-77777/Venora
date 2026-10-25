@@ -1,5 +1,15 @@
 const eventModel = require("../models/event.model");
 
+async function getAllEventsService(skipIndex, limit) {
+    const events = await eventModel.find().populate("org_id", "organizationName city website").sort({ createdAt: -1 }).skip(skipIndex).limit(limit);
+    return events;
+}
+
+async function getEventService(eventId) {
+    const event = await eventModel.findById(eventId).populate("org_id", "organizationName city website");
+    return event;
+}
+
 async function createEventService(eventData) {
     const event = new eventModel(eventData);
     const result = await event.save();
@@ -21,6 +31,8 @@ async function deleteEventService(eventId, orgId) {
 }
 
 module.exports = {
+    getAllEventsService,
+    getEventService,
     createEventService,
     updateEventService,
     deleteEventService

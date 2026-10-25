@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const ticketController = require("../controllers/ticket.controller");
-const { AuthenticateUser } = require("../middlewares/auth.middlewares");
+const { AuthenticateUser } = require("../middlewares/auth.middleware");
 const {
     bookTicketValidation,
     verifyPaymentValidation,
